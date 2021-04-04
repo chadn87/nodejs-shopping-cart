@@ -26,8 +26,8 @@ jobs:
         echo "::set-output name=MINOR_INC::$MINOR_INC"
         MAJOR_INC=$(git log --oneline -1 | { grep -c major/ || :; })
         echo "::set-output name=MAJOR_INC::$MAJOR_INC"
-        if [[ PATCH_INC -eq 0 ]] && [[ MINOR_INC -eq 0 ]] && [[ MAJOR_INC -eq 0 ]]; then echo "Version Increment type was not set. Defaulting to Minor...." && echo "::set-output name=MINOR_INC::1"; fi
-        
+        if [[ PATCH_INC -eq 0 ]] && [[ MINOR_INC -eq 0 ]] && [[ MAJOR_INC -eq 0 ]]; then echo "Version Increment type was not set. Defaulting to Minor Version Increment" && echo "::set-output name=MINOR_INC::1"; fi
+
     - name: Patch Increment of Project Version
       if: steps.inctype.outputs.PATCH_INC >= 1
       run: |
