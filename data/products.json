@@ -28,11 +28,5 @@
     "title": "Sugar",
     "description": "Sugar is <span class=\"label label-info\">10 CHF each</span>",
     "price": 10
-  },
-  {
-    "id": 6,
-    "title": "Salt",
-    "description": "Salt is <span class=\"label label-info\">5 CHF each</span>",
-    "price": 5
   }
 ]
