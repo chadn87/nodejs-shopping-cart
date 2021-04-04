@@ -22,16 +22,14 @@ jobs:
       run: |
         PATCH_INC=$(git log --oneline -1 | { grep -c patch/ || :; })
         echo "::set-output name=PATCH_INC::$PATCH_INC"
-        echo $PATCH_INC
         MINOR_INC=$(git log --oneline -1 | { grep -c minor/ || :; })
         echo "::set-output name=MINOR_INC::$MINOR_INC"
-        echo $MINOR_INC
         MAJOR_INC=$(git log --oneline -1 | { grep -c major/ || :; })
         echo "::set-output name=MAJOR_INC::$MAJOR_INC"
-        echo $MAJOR_INC
-
-    - name: Tests
-      run: echo ${{steps.inctype.outputs.PATCH_INC}}
+    
+    - name: Verify Version Increment Type
+      run: |
+        if [[ PATCH_INC -eq 0 ]] && [[ MINOR_INC -eq 0 ]] && [[ MAJOR_INC -eq 0 ]]; then echo "Version Increment type was not set. Defaulting to Minor...." && echo "::set-output name=MINOR_INC::1"; fi
 
     - name: Patch Increment of Project Version
       if: steps.inctype.outputs.PATCH_INC >= 1
