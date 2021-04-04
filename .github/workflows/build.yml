@@ -37,20 +37,6 @@ jobs:
         node-version: '10.x'
     - name: Run npm Tests
       run: npm run test --if-present
-
-  audit:
-    needs: build
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-    - name: Run npm Audit
-      run: npm audit 
     
   lint:
     needs: build
