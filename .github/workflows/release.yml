@@ -17,10 +17,40 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
-    - name: Increment Project Version
+
+    - name: Determine Type of Version Increment
+      id: inctype
+      run: |
+        MINOR_INC=$(git log --oneline -1 | grep minor)
+        echo "::set-output name=MINOR_INC::$MINOR_INC"
+        PATCH_INC=$(git log --oneline -1 | grep patch)
+        echo "::set-output name=PATCH_INC::$PATCH_INC"
+        MAJOR_INC=$(git log --oneline -1 | grep major)
+        echo "::set-output name=MAJOR_INC::$MAJOR_INC"
+        
+    - name: Patch Increment of Project Version
+      if: steps.inctype.outputs.PATCH_INC == 1
+      run: |
+        git config user.name $GITHUB_ACTOR
+        git config user.email gh-actions-${GITHUB_ACTOR}@github.com 
+        npm version patch
+        git remote add gh-origin https://${GITHUB_ACTOR}:${{secrets.GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git
+        git push gh-origin HEAD:main --tags
+
+    - name: Minor Increment of Project Version
+      if: steps.inctype.outputs.MINOR_INC == 1
       run: |
         git config user.name $GITHUB_ACTOR
         git config user.email gh-actions-${GITHUB_ACTOR}@github.com 
         npm version minor
+        git remote add gh-origin https://${GITHUB_ACTOR}:${{secrets.GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git
+        git push gh-origin HEAD:main --tags
+
+    - name: Major Increment of Project Version
+      if: steps.inctype.outputs.MAJOR_INC == 1
+      run: |
+        git config user.name $GITHUB_ACTOR
+        git config user.email gh-actions-${GITHUB_ACTOR}@github.com 
+        npm version major
         git remote add gh-origin https://${GITHUB_ACTOR}:${{secrets.GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git
         git push gh-origin HEAD:main --tags
