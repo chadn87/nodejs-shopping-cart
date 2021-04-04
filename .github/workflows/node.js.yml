@@ -20,7 +20,9 @@ jobs:
       with:
         node-version: '10.x'
     - run: npm ci
+    - name: Run npm Build
     - run: npm run build --if-present
+    - name: Run npm Tests
     - run: npm test --if-present
     
     # - name: Add Heroku remote origin
