@@ -9,17 +9,7 @@ on:
       - main
 
 jobs:
-  tag:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Create Git Tag
-      run: |
-        PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')
-        git tag $PACKAGE_VERSION
-        git push --tags
-  
-  increment:
+  release_increment:
     needs: tag
     runs-on: ubuntu-latest
     steps:
@@ -34,4 +24,4 @@ jobs:
         git config user.email gh-actions-${GITHUB_ACTOR}@github.com 
         npm version patch
         git remote add gh-origin https://${GITHUB_ACTOR}:${{secrets.GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git
-        git push gh-origin 
+        git push gh-origin --tags
