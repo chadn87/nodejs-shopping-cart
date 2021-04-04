@@ -20,20 +20,21 @@ jobs:
     - name: Determine Type of Version Increment
       id: inctype
       run: |
-        PATCH_INC=$(git log --oneline -1 | { grep patch/ || :; })
+        PATCH_INC=$(git log --oneline -1 | { grep -c patch/ || :; })
         echo "::set-output name=PATCH_INC::$PATCH_INC"
         echo $PATCH_INC
-        MINOR_INC=$(git log --oneline -1 | { grep minor/ || :; })
+        MINOR_INC=$(git log --oneline -1 | { grep -c minor/ || :; })
         echo "::set-output name=MINOR_INC::$MINOR_INC"
         echo $MINOR_INC
-        MAJOR_INC=$(git log --oneline -1 | { grep major/ || :; })
+        MAJOR_INC=$(git log --oneline -1 | { grep -c major/ || :; })
         echo "::set-output name=MAJOR_INC::$MAJOR_INC"
         echo $MAJOR_INC
+
     - name: Tests
       run: echo ${{steps.inctype.outputs.PATCH_INC}}
 
     - name: Patch Increment of Project Version
-      if: steps.inctype.outputs.PATCH_INC == 1
+      if: steps.inctype.outputs.PATCH_INC >= 1
       run: |
         git config user.name $GITHUB_ACTOR
         git config user.email gh-actions-${GITHUB_ACTOR}@github.com 
@@ -42,7 +43,7 @@ jobs:
         git push gh-origin HEAD:main --tags
 
     - name: Minor Increment of Project Version
-      if: steps.inctype.outputs.MINOR_INC == 1
+      if: steps.inctype.outputs.MINOR_INC >= 1
       run: |
         git config user.name $GITHUB_ACTOR
         git config user.email gh-actions-${GITHUB_ACTOR}@github.com 
@@ -51,7 +52,7 @@ jobs:
         git push gh-origin HEAD:main --tags
 
     - name: Major Increment of Project Version
-      if: steps.inctype.outputs.MAJOR_INC == 1
+      if: steps.inctype.outputs.MAJOR_INC >= 1
       run: |
         git config user.name $GITHUB_ACTOR
         git config user.email gh-actions-${GITHUB_ACTOR}@github.com 
