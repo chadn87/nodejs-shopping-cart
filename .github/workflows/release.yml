@@ -29,7 +29,9 @@ jobs:
         MAJOR_INC=$(git log --oneline -1 | { grep major/ || :; })
         echo "::set-output name=MAJOR_INC::$MAJOR_INC"
         echo $MAJOR_INC
-        
+    - name: Tests
+      run: echo ${steps.inctype.outputs.PATCH_INC}
+      
     - name: Patch Increment of Project Version
       if: steps.inctype.outputs.PATCH_INC == 1
       run: |
