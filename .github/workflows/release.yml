@@ -27,7 +27,6 @@ jobs:
   increment:
     needs: tag
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js
@@ -35,4 +34,9 @@ jobs:
       with:
         node-version: '10.x'
     - name: Increment Project Version
-      run: npm version patch
+      run: |
+        git config user.name $GITHUB_ACTOR
+        git config user.email gh-actions-${GITHUB_ACTOR}@github.com 
+        npm version patch
+        git remote add gh-origin https://${GITHUB_ACTOR}:${secrets.GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        git push gh-origin HEAD:main --tags
