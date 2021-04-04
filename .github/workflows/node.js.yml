@@ -23,8 +23,8 @@ jobs:
     - run: npm run build --if-present
     - run: npm test --if-present
     
-    - name: Add Heroku remote origin
-    - run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+    # - name: Add Heroku remote origin
+    # - run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
 
-    - name: Deploy to Heroku
-    - run: git push heroku HEAD:main -f
+    # - name: Deploy to Heroku
+    # - run: git push heroku HEAD:main -f
