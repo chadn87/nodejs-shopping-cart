@@ -20,12 +20,15 @@ jobs:
     - name: Determine Type of Version Increment
       id: inctype
       run: |
-        PATCH_INC=$(git log --oneline -1 | { grep patch || :; })
+        PATCH_INC=$(git log --oneline -1 | { grep patch/ || :; })
         echo "::set-output name=PATCH_INC::$PATCH_INC"
-        MINOR_INC=$(git log --oneline -1 | { grep minor || :; })
+        echo $PATCH_INC
+        MINOR_INC=$(git log --oneline -1 | { grep minor/ || :; })
         echo "::set-output name=MINOR_INC::$MINOR_INC"
-        MAJOR_INC=$(git log --oneline -1 | { grep major || :; })
+        echo $MINOR_INC
+        MAJOR_INC=$(git log --oneline -1 | { grep major/ || :; })
         echo "::set-output name=MAJOR_INC::$MAJOR_INC"
+        echo $MAJOR_INC
         
     - name: Patch Increment of Project Version
       if: steps.inctype.outputs.PATCH_INC == 1
