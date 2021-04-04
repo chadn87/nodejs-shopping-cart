@@ -19,15 +19,18 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
+    
     - name: Run Npm install    
       run: npm ci
+    
     - name: Run npm Build
       run: npm run build --if-present
+
     - name: Run npm Tests
       run: npm test --if-present
     
-    # - name: Add Heroku remote origin
-    # - run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+    - name: Add Heroku remote origin
+    - run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
 
-    # - name: Deploy to Heroku
-    # - run: git push heroku HEAD:main -f
+    - name: Deploy to Heroku
+    - run: git push heroku HEAD:main -f
