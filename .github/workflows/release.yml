@@ -38,5 +38,5 @@ jobs:
         git config user.name $GITHUB_ACTOR
         git config user.email gh-actions-${GITHUB_ACTOR}@github.com 
         npm version patch
-        git remote add gh-origin https://${GITHUB_ACTOR}:${secrets.GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        git remote add gh-origin https://${GITHUB_ACTOR}:${{secrets.GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git
         git push gh-origin HEAD:main --tags
