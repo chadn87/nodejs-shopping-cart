@@ -42,9 +42,9 @@ jobs:
   audit:
     needs: build
     runs-on: ubuntu-latest
-
+    continue-on-error: true
     steps:
-      continue-on-error: true
+      
     - uses: actions/checkout@v2
     - name: Use Node.js
       uses: actions/setup-node@v1
