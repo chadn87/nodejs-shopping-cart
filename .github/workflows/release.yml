@@ -13,16 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
 
     - name: Determine Type of Version Increment
       id: inctype
       run: |
-        MINOR_INC=$(git log --oneline -1 | grep minor)
+        PATCH_INC=$(git log --oneline -1 | { grep patch || :; })
+        echo "::set-output name=PATCH_INC::$PATCH_INC"
+        MINOR_INC=$(git log --oneline -1 | { grep minor || :; })
         echo "::set-output name=MINOR_INC::$MINOR_INC"
+        MAJOR_INC=$(git log --oneline -1 | { grep major || :; })
+        echo "::set-output name=MAJOR_INC::$MAJOR_INC"
         
     - name: Patch Increment of Project Version
       if: steps.inctype.outputs.PATCH_INC == 1
