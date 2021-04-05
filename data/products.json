@@ -34,6 +34,12 @@
     "title": "Sugar2",
     "description": "Sugar2 is <span class=\"label label-info\">10 CHF each</span>",
     "price": 10
+  },
+  {
+    "id": 7,
+    "title": "Pepper",
+    "description": "Pepper is <span class=\"label label-info\">10 CHF each</span>",
+    "price": 10
   }
 
 ]
